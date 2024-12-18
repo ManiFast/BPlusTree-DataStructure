@@ -16,7 +16,11 @@ class BPlusTree {
 public:
   Node* root;
 
+
+
   BPlusTree() : root(new Node(true)) {}
+
+
 
   void insert(int key) {
     if (root->keys.size() == (2 * ORDER - 1)) {
@@ -60,11 +64,13 @@ public:
     Node* new_child = new Node(child->is_leaf);
     parent->children.insert(parent->children.begin() + index + 1, new_child);
 
+
     // разделение ключей и дочерних узлов
     std::vector<int> keys = child->keys;
     std::vector<Node*> children = child->children;
     child->keys.clear();
     child->children.clear();
+
 
     int mid = ORDER - 1;
     for (int i = 0; i < mid; i++) {
@@ -73,6 +79,8 @@ public:
         child->children.push_back(children[i]);
       }
     }
+
+
     for (int i = mid; i < keys.size(); i++) {
       new_child->keys.push_back(keys[i]);
       if (!child->is_leaf) {
@@ -84,12 +92,16 @@ public:
   }
 
   int search(int key) {
+
     Node* node = root;
+
     while (!node->is_leaf) {
+
       int i = 0;
       while (i < node->keys.size() && key > node->keys[i]) {
         i++;
       }
+
       node = node->children[i];
     }
     for (int i = 0; i < node->keys.size(); i++) {
@@ -97,12 +109,16 @@ public:
         return key;
       }
     }
+
+
     return -1; // ключ не найден
   }
 };
 
 int main() {
+
   BPlusTree tree;
+
   tree.insert(5);
   tree.insert(3);
   tree.insert(7);
